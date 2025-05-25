@@ -9,9 +9,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
 
+<<<<<<< HEAD
 
 @Composable
 fun AddItem(navController: NavHostController, items: MutableList<InventoryModel>) {
+=======
+@Composable
+fun AddItem(navController: NavHostController, items: MutableList<Item>) {
+>>>>>>> d0ea989ac7405d53fd8765576aad1aa62e1135fb
     var title by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
 
@@ -27,8 +32,11 @@ fun AddItem(navController: NavHostController, items: MutableList<InventoryModel>
             label = { Text("Amount") }
         )
         Button(onClick = {
+<<<<<<< HEAD
             val newItem = InventoryModel(title = title, amount = amount.toIntOrNull() ?:0)
             items.add(newItem)
+=======
+>>>>>>> d0ea989ac7405d53fd8765576aad1aa62e1135fb
             navController.popBackStack()
         }) {
             Text("Add")
