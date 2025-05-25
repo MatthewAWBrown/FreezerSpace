@@ -29,6 +29,7 @@ fun AddItem(navController: NavHostController, items: MutableList<InventoryModel>
         Button(onClick = {
             val newItem = InventoryModel(title = title, amount = amount.toIntOrNull() ?:0)
             items.add(newItem)
+
             navController.popBackStack()
         }) {
             Text("Add")

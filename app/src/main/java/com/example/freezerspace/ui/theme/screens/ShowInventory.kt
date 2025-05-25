@@ -33,70 +33,77 @@ fun InventoryScreen(
 ) {
     val items by viewModel.allItems.collectAsState()
 
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("addItem") }) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(R.string.add_item) // use string resource
+    @Composable
+    fun ShowInventory(navController: NavHostController, items: List<Item>) {
+        var items by remember { mutableStateOf(listOf<Pair<String, String>>()) }
+
+
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(onClick = { navController.navigate("addItem") }) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = stringResource(R.string.add_item) // use string resource
+                    )
+                }
+            }
+        ) { paddingValues ->
+            if (items.isEmpty()) {
+                EmptyInventoryView(modifier = Modifier.padding(paddingValues)) // Show an empty state
+            } else {
+                InventoryList(
+                    items = items,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
                 )
             }
         }
-    ) { paddingValues ->
-        if (items.isEmpty()) {
-            EmptyInventoryView(modifier = Modifier.padding(paddingValues)) // Show an empty state
-        } else {
-            InventoryList(
-                items = items,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
+    }
+
+    @Composable
+    fun InventoryList(
+        items: List<InventoryModel>,
+        modifier: Modifier = Modifier
+    ) {
+        LazyColumn(
+            modifier = modifier,
+            contentPadding = PaddingValues(16.dp)
+        ) {
+            items(items = items, key = { item -> item.id }) { item ->
+                InventoryItemRow(item = item)
+                HorizontalDivider()
+            }
+        }
+    }
+
+    @Composable
+    fun InventoryItemRow(item: InventoryModel, modifier: Modifier = Modifier) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = "Amount: ${item.amount}",
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }
-}
 
-@Composable
-fun InventoryList(
-    items: List<InventoryModel>,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(16.dp)
-    ) {
-        items(items = items, key = { item -> item.id}) {item ->
-            InventoryItemRow(item = item)
-            HorizontalDivider()
+    @Composable
+    fun EmptyInventoryView(modifier: Modifier = Modifier) {
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = androidx.compose.ui.Alignment.Center
+        ) {
+            Text(stringResource(R.string.no_items_in_inventory))
         }
-    }
-}
-
-@Composable
-fun InventoryItemRow(item: InventoryModel, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = item.title,
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            text = "Amount: ${item.amount}",
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
-
-@Composable
-fun EmptyInventoryView(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = androidx.compose.ui.Alignment.Center
-    ) {
-        Text(stringResource(R.string.no_items_in_inventory))
+        Text("+")
     }
 }

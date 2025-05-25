@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Freezer Space</string>
+<<<<<<< HEAD
     <string name="add_item"><![CDATA[<resources>\n    <!-- Other strings might already be here -->\n\n    <string name=\"add_item\">Add Item</string>\n\n    <!-- You can put other strings here too -->\n</resources>]]></string>
     <string name="no_items_in_inventory"><![CDATA[<resources>\n    <!-- Other strings might already be here -->\n\n    <string name=\"no_items_in_inventory\">No items in inventory</string>\n\n    <!-- You can put other strings here too -->\n</resources>]]></string>
+=======
+>>>>>>> d0ea989ac7405d53fd8765576aad1aa62e1135fb
 </resources>
